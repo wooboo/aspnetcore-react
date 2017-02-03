@@ -8,25 +8,19 @@
  */
 
 import React from 'react';
+import Helmet from 'react-helmet';
+import styled from 'styled-components';
 import Layout from '../../components/Layout';
 
-class About extends React.Component {
+const Header = styled.h1`
+  display: block
+`;
 
-  componentDidMount() {
-    document.title = 'About Us';
-  }
-
-  render() {
-    return (
-      <Layout>
-        <h1 className="mdl-typography--title">About Us</h1>
-        <p className="mdl-typography--body-1">
-          Coming soon.
-        </p>
-      </Layout>
-    );
-  }
-
-}
+const About = () => (
+  <Layout>
+    <Helmet title="About Us" />
+    <Header>About Us</Header>
+  </Layout>
+  );
 
 export default About;

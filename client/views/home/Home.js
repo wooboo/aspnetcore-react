@@ -8,37 +8,30 @@
  */
 
 import React, { PropTypes } from 'react';
+import Helmet from 'react-helmet';
 import Layout from '../../components/Layout';
 
-const title = 'ASP.NET Core Starter Kit';
+const title = 'Starter Kit';
 const link = 'https://github.com/kriasoft/aspnet-starter-kit';
 
-class Home extends React.Component {
+const Home = (props) => (
+  <Layout>
+    <Helmet title={title} />
+    <h1 className="mdl-typography--title">Welcome to {title}!</h1>
+    <p className="mdl-typography--body-1">
+      For more information visit <a href={link}>{link}</a>
+    </p>
+    <h4 className="mdl-typography--title">Articles</h4>
+    <ul>
+      {props.articles.map((article, i) =>
+        <li key={i}><a href={article.url}>{article.title}</a> by {article.author}</li>
+      )}
+    </ul>
+  </Layout>
+);
 
-  static propTypes = {
-    articles: PropTypes.array.isRequired,
-  };
-
-  componentDidMount() {
-    document.title = title;
-  }
-
-  render() {
-    return (
-      <Layout>
-        <h1 className="mdl-typography--title">Welcome to {title}!</h1>
-        <p className="mdl-typography--body-1">
-          For more information visit <a href={link}>{link}</a>
-        </p>
-        <h4 className="mdl-typography--title">Articles</h4>
-        <ul>
-          {this.props.articles.map((article, i) =>
-            <li key={i}><a href={article.url}>{article.title}</a> by {article.author}</li>
-          )}
-        </ul>
-      </Layout>
-    );
-  }
-}
+Home.propTypes = {
+  articles: PropTypes.array.isRequired,
+};
 
 export default Home;

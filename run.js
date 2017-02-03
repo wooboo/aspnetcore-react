@@ -63,12 +63,12 @@ tasks.set('copy', () => cpy(['public/**/*.*'], 'build', { parents: true }));
 //
 // Copy ASP.NET application config file for production and development environments
 // -----------------------------------------------------------------------------
-tasks.set('appsettings', () => new Promise(resolve => {
+tasks.set('appsettings', () => new Promise((resolve) => {
   const environments = ['Production', 'Development'];
   let count = environments.length;
   const source = require('./server/appsettings.json'); // eslint-disable-line global-require
   delete source.Logging;
-  environments.forEach(env => {
+  environments.forEach((env) => {
     const filename = path.resolve(__dirname, `./server/appsettings.${env}.json`);
     try {
       fs.writeFileSync(filename, JSON.stringify(source, null, '  '), { flag: 'wx' });
@@ -92,7 +92,7 @@ tasks.set('build', () => {
       const options = { stdio: ['ignore', 'inherit', 'inherit'] };
       const config = global.DEBUG ? 'Debug' : 'Release';
       const args = ['publish', 'server', '-o', 'build', '-c', config, '-r', 'coreclr'];
-      cp.spawn('dotnet', args, options).on('close', code => {
+      cp.spawn('dotnet', args, options).on('close', (code) => {
         if (code === 0) {
           resolve();
         } else {
@@ -114,7 +114,7 @@ tasks.set('publish', () => {
   };
   const opts = { cwd: path.resolve(__dirname, './build'), stdio: ['ignore', 'inherit', 'inherit'] };
   const git = (...args) => new Promise((resolve, reject) => {
-    cp.spawn('git', args, opts).on('close', code => {
+    cp.spawn('git', args, opts).on('close', (code) => {
       if (code === 0) {
         resolve();
       } else {
@@ -153,7 +153,7 @@ tasks.set('start', () => {
   return Promise.resolve()
     .then(() => run('clean'))
     .then(() => run('appsettings'))
-    .then(() => new Promise(resolve => {
+    .then(() => new Promise((resolve) => {
       let count = 0;
       const webpackConfig = require('./webpack.config');
       const compiler = webpack(webpackConfig);
@@ -173,7 +173,7 @@ tasks.set('start', () => {
               ASPNETCORE_ENVIRONMENT: 'Development',
             }),
           };
-          cp.spawn('dotnet', ['watch', 'run'], options).stdout.on('data', data => {
+          cp.spawn('dotnet', ['watch', 'run'], options).stdout.on('data', (data) => {
             process.stdout.write(data);
             if (data.indexOf('Application started.') !== -1) {
               // Launch Browsersync after the initial bundling is complete
